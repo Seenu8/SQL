@@ -1,0 +1,17 @@
+alter table emp add dob date;
+desc emp;
+alter table emp modify column dob int;
+alter table emp drop column dob;
+update dept set no=15 where no=1;
+delete from dept where no=14;
+commit;
+start transaction;
+rollback;
+insert into dept values(15,"EEE",2);
+savepoint insert_values;
+commit;
+update dept set dept="DE" where no=15;
+savepoint update_dept;
+delete from dept where no=15;
+savepoint delete_values;
+rollback to update_dept;

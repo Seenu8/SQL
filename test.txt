@@ -1,0 +1,53 @@
+NAME:Seenivasan M
+EMPID: 2579619
+
+
+Q1:- Retrieve all employees and their corresponding departments,
+     including those employees who are not assigned to any department.
+SELECT employee_name,department_name 
+from employee 
+LEFT JOIN department 
+ON employee.department_id=department.department_id;
+
+
+Q2:- List employees who earn more than the average salary in their respective departments
+SELECT employee_name,salary FROM employee WHERE salary >
+(select avg(salary) FROM employee 
+JOIN department on employee.department_id=department.department_id
+GROUP BY department_name);
+
+Q3:- List all departments along with the length of their names
+select department.*,length(department_name) FROM department 
+
+Q4:- Calculate the salary of each employee after a 30% raise
+SELECT salary+(salary*.3) as Salary from employee;
+
+Q5:- List all employees with their IDs and emails, 
+     renaming the "employee_id" column to "ID" and the "email" column to "Email Address"
+select employee_name,employee_id as "ID",email as "Email Address" FROM employee 
+
+Q6:- Find all employees who are not assigned to any department
+select employee_name FROM employee WHERE department_id is NULL;
+
+Q7:- List departments with an average salary greater than $70,000
+select department_name FROM employee 
+JOIN department on employee.department_id=department.department_id
+GROUP BY department_name HAVING avg(salary)>70000;
+
+Q8:- Difference between where and having clause
+ 		where 			having
+
+	1. seperating row by row  	gruop by gruop
+	2. multi row not accesable   	multi row can accesable
+	3. it comes before gruop        it come after group
+	4. it support only single row   it supports both single and multi row
+
+Q9:- Find the employees who work in departments located in the same city as the "Human Resources" department
+SELECT employee_name FROM employee WHERE  department_id in (SELECT department_id FROM department WHERE department_name="Human Resources")
+
+
+Q10:- Retrieve employees with a salary higher than the average salary of all employees in their respective departments
+SELECT employee_name FROM employee WHERE salary >
+(select avg(salary) FROM employee 
+JOIN department on employee.department_id=department.department_id
+GROUP BY department_name);

@@ -1,0 +1,102 @@
+Seenivasan M
+2579619
+
+1. Create the delta lake table with atleast 3 cloumns?
+
+from delta.tables import *
+
+DeltaTable.create(spark)\
+    .tableName("emp")\
+    .addColumn("id","int")\
+    .addColumn("name","string")\
+    .addColumn("gender","string")\
+    .addColumn("age","int")\
+    .location("/FileStore/tables/delta/createtable/emp2")\
+    .execute()
+
+2. Show above folder under delta log,how data is created?
+
+%fs
+ls /FileStore/tables/delta/createtable/emp2/_delta_log
+
+3. Insert five rows into the above table?
+
+%sql
+insert into emp values(1,"arun","M",25),(2,"babu","M",25),(3,"chandru","M",24),(4,"deepak","M",25),(5,"sara","F",24)
+
+4. Perform 2 or 3 delete operations for above table?
+
+%sql
+delete from emp where id=5
+
+spark.sql("delete from emp where id=4")
+
+from delta.tables import *
+df=DeltaTable.forName(spark,"emp")
+df.delete("id=3")
+
+5. Create delta instance for above table path?
+
+from delta.tables import *
+df=DeltaTable.forPath(spark,"/FileStore/tables/delta/createtable/emp2")
+
+6. perform 2 ways of delete row in delta istance?
+
+from pyspark.sql.functions import col,lit
+df.delete(col("id")==1)
+
+df.delete("id=1")
+
+df.delete("id=2 and name='babu'")
+
+7. create new delta table, inser using temp view?
+
+from pyspark.sql.types import StructType,StructField,IntegerType,StringType
+a=[(1,"seenu","M",24)]
+b=StructType([StructField("id",IntegerType(),True),StructField("name",StringType(),True),
+    StructField("gender",StringType(),True),StructField("age",IntegerType(),True)])
+df=spark.createDataFrame(data=a,schema=b)
+
+df.createOrReplaceTempView("data")
+
+%sql
+insert into emp select * from data
+
+8. Perform delete operation using delta location and spark sql?
+
+%sql
+delete from delta.`/FileStore/tables/delta/createtable/emp2` where id=2
+
+spark.sql("delete from emp where id=1")
+
+9. create delta table using sql and update any 3 rows of it?
+
+%sql
+create table emp20(
+  id int,
+  name string,
+  gender string,
+  age int
+)using delta
+location "/FileStore/tables/delta/createtable/emp20"
+
+%sql
+update emp set id=10 where id=5
+
+spark.sql("update emp set name='abc' where name='seenu'")
+
+spark.sql("update emp set age=20 where name='abc'")
+
+10. Write merge syntax for above tables?
+
+%sql
+merge into emp20 as t 
+using emp as s 
+on t.id=s.id
+when matched 
+then update set
+t.name=s.name,
+t.gender=s.gender,
+t.age=s.age
+when not matched
+then insert (id,name,gender,age) values (id,name,gender,age)

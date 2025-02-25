@@ -1,0 +1,119 @@
+NAME:SEENIVASAN M
+EMPNO:2579619
+
+SQL:
+
+1) List the employees who earn a salary higher than the average salary of all managers.
+
+select ename from emp where sal>(select avg(sal) from emp where empno in (select mgr from emp));
+
+2) List the names of employees and their corresponding commission.
+
+select ename,comm from emp;
+# select ename,comm from emp where comm is not null;
+
+3) Find the names of all employees who work in the Sales department
+select ename from emp where deptno = (select deptno from dept where dname="SALES")
+
+4) Retrieve the names of employees along with their manager's name, including those who don't have managers
+
+
+5) Retrieve the details of employees who work under a manager with empno 7839 and job is clerk.
+select * from emp where mgr=7839 and job="CLERK";
+
+
+PYTHON:
+
+question1: write a calculator program
+
+feature should be
+
+a. It can take two input value
+
+a=int(input("a: "))
+b=int(input("b: "))
+
+b.execute add,sub,multiply and divide
+
+    print("add: ",a+b)
+    print("sub: ",a-b)
+    print("mul: ",a*b)
+    print("div: ",a/b)
+
+c.(2000-4000)if value is going out of this range rise error?
+a=5000
+if a<2000 or a>4000 :
+    raise error
+
+
+question2:write program
+
+a.Print the calendar month of jan-2022
+
+import calendar
+a=calendar.month(2022,1)
+print(a)
+
+b.print the value from 5 to 12
+
+for i in range(5,13):
+    print(i,end=" ")
+
+
+question3:write program
+
+a="45"
+
+b="55"
+
+convert into integer form
+
+a="45"
+b="55"
+a=int(a)
+b=int(b)
+
+convert into tuple of list1(Q4)
+
+list1=[1,3,45,"black",False,6,"color","hello","world"]
+tuple1=tuple(list1)
+
+
+question 4:write program
+
+list1=[1,3,45,"black",False,6,"color","hello","world"]
+
+a.itterate the list elements
+
+for i in list1:
+    print(i,end=" ")
+
+b.print the list if list1 equal to color then break the list
+
+for i in list1:
+    if i=="color":
+        break
+    else:
+        print(i,end=" ")
+
+
+c.keep the "yellow" value on place of "hello"
+a=list1.index("hello")
+list1[a]="yellow"
+print(list1)
+
+
+question5:
+
+create a python program capable greeting you with good morning,good afternoon,good evening,
+your program should use time module to get current hour.
+
+import time
+a=time.localtime()
+b=a[3]
+if b>4 and b<12:
+    print("Good Morning")
+elif b<16 and b>11:
+    print("Good afternoon")
+elif b>15 and b<19:
+    print("Good evining")

@@ -1,0 +1,59 @@
+1.Read the csv given file and display it (take reference example)
+
+df=spark.read.format("csv").options(inferSchema="True",header="True",sep=",").load("/seenu/tables/customers_100.csv")
+display(df)
+
+2.create schema and display table for employee like emp_id,emp_name,doj and gender.
+
+a=[(10,"raj",1999,100,"M",2000),(20,"rahul",2000,200,"f",8000),(20,"ram",1999,230,"m",2220),(20,"shyam",2022,210,None,899),(20,"piyush",2550,211,"f",9000),(20,"ramitl",2990,204,"m",8000)]
+b=("employee_id","name","doj","emp_dept_id","gender","salary")
+df=spark.createDataFrame(data=a,schema=b)
+display(df)
+
+3.display the filter above table
+print the value who salary is greater than 2000
+df.filter(df.salary>2000).display()
+
+print the value who salary is between 2000 and 9000
+df.filter((df.salary>2000)&(df.salary<9000)).display()
+
+print the name who start with s 
+df.filter(df.name.startswith("s")).display()
+
+print the name who end with h
+df.filter(df.name.endswith("h")).display()
+
+print the gender who has null value
+df.filter(df.gender.isNull()).display()
+
+4.how to display column datatype
+df.printSchema()
+
+5.Add the new column, above table with name "last_column" 
+from pyspark.sql.functions import lit
+df1=df.withColumn("last_column",lit(df.salary))
+display(df1)
+
+6.concatination column "doj" and emp_dept_id
+from pyspark.sql.functions import concat
+df1=df.withColumn("doj_emp_id",concat(df.doj,df.emp_dept_id))
+display(df1)
+
+7.1 print the join function of anti and cross?
+df_join=dept_fr.join(df,dept_fr.Dept_id==df.Dep_id,"anti")
+df_join=dept_fr.join(df,dept_fr.Dept_id==df.Dep_id,"cross")
+display(df_join)
+
+8 how to create new folder 
+dbutils.fs.mkdirs("/abc/a")
+
+9.display any three widgets
+dbutils.widgets.text("Text","abc")
+dbutils.widgets.combobox("Combobox","0",["1","2","3","4","5"])
+dbutils.widgets.dropdown("Dropdown","1",["1","2","3","4","5"])
+
+10.use multiconditions for table1 using AND and OR operators with new column name as "emp_new" ,if emp_dept_id
+ greater than or equal to 200 and less than or equal to 100 status will be "good_emp" else "not_good"
+from pyspark.sql.functions import when
+df1=df.withColumn("emp_new",when(df.Dep_id>=200,"good_emp").when(df.Dep_id<=100,"bad_emp"))
+display(df1)

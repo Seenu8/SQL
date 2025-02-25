@@ -1,0 +1,11 @@
+create database db;
+create table emp(id int primary key,age int,name varchar(50));
+insert into emp values(1,24,"seenu"),(2,23,"veera"),(3,24,"chandrika");
+select * from emp;
+update emp set id=4 where id=3;
+delete from emp where id=4;
+alter table emp add dob date;
+alter table emp modify column dob int;
+alter table emp drop column dob;
+drop table emp;
+truncate table emp;

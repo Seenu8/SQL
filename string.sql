@@ -1,0 +1,14 @@
+select lower("AAA");
+select upper("aaa");
+select ucase("abc");
+select lcase("ABC");
+select ascii("a");
+select length("abc");
+select substr("abcd",2,1);
+select concat("ab","cd");
+select replace("abc","a","z");
+select reverse("abc");
+select strcmp("abc","a");
+select substring("abcd",2,1);
+select trim("   abc   ");
+select trim('a' from "abc");
